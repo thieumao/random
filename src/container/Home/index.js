@@ -49,8 +49,7 @@ const Home = () => {
     random3Cards();
   }, []);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = () => {
     random3Cards();
   };
 
@@ -75,15 +74,15 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} className="container">
-        <div className="images">
-          <img src={card1} className="App-logo" alt="logo" />
-          <img src={card2} className="App-logo" alt="logo" />
-          <img src={card3} className="App-logo" alt="logo" />
-        </div>
-        <input className="submitButton" type="submit" value="Random" />
-      </form>
+    <div className="container">
+      <div className="images">
+        <img src={card1} className="App-logo" alt="logo" />
+        <img src={card2} className="App-logo" alt="logo" />
+        <img src={card3} className="App-logo" alt="logo" />
+      </div>
+      <button className="submitButton" onClick={() => handleSubmit()}>
+        Random
+      </button>
     </div>
   );
 };
