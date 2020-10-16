@@ -44,6 +44,7 @@ const Home = () => {
   const [card1, setCard1] = useState(undefined);
   const [card2, setCard2] = useState(undefined);
   const [card3, setCard3] = useState(undefined);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     random3Cards();
@@ -56,6 +57,24 @@ const Home = () => {
   const randomNumber = (number) =>
     Math.floor(Math.random() * Math.floor(number));
 
+  const getScore = (number) => {
+    const div = number / 9;
+    if (div < 1) {
+      return number + 1;
+    } else if (div < 2) {
+      return Math.floor((number - 8) % 10);
+    } else if (div < 3) {
+      return Math.floor((number - 17) % 10);
+    } else {
+      return Math.floor((number - 26) % 10);
+    }
+  }
+
+  const getSum = (number1, number2, number3) => {
+    const sum = (getScore(number1) + getScore(number2) + getScore(number3)) % 10;
+    return sum > 0 ? sum : 10;
+  }
+
   const random3Cards = () => {
     const MAX_NUMBER = 36;
     const number1 = randomNumber(MAX_NUMBER);
@@ -67,7 +86,9 @@ const Home = () => {
     while (number3 === number1 || number3 === number2) {
       number3 = randomNumber(MAX_NUMBER);
     }
-
+    console.log('score = ', getScore(number1));
+    const sum = getSum(number1, number2, number3);
+    setTotal(sum);
     setCard1(cards[number1]);
     setCard2(cards[number2]);
     setCard3(cards[number3]);
@@ -83,6 +104,9 @@ const Home = () => {
       <button className="submitButton" onClick={() => handleSubmit()}>
         Random
       </button>
+      { total > 0 && (
+        <h1 className="total">{total}</h1>
+      )}
     </div>
   );
 };
