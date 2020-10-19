@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Home.css";
-import { debounce } from 'lodash';
+import { debounce, throttle } from 'lodash';
 
+const hidenCard = require("../../images/blue_back.png")
 const cards = [
   require("../../images/1H.png"),
   require("../../images/2H.png"),
@@ -46,13 +47,18 @@ const Home = () => {
   const [card2, setCard2] = useState(undefined);
   const [card3, setCard3] = useState(undefined);
   const [total, setTotal] = useState(0);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
     random3Cards();
   }, []);
 
   const handleSubmit = () => {
-    random3Cards();
+    setHidden(true);
+    setCard1(hidenCard);
+    setCard2(hidenCard);
+    setCard3(hidenCard);
+    debounce(random3Cards, 1600)();
   };
 
   const randomNumber = (number) =>
@@ -93,6 +99,7 @@ const Home = () => {
     setCard1(cards[number1]);
     setCard2(cards[number2]);
     setCard3(cards[number3]);
+    setHidden(false);
   };
 
   return (
@@ -102,10 +109,12 @@ const Home = () => {
         <img src={card2} className="App-logo" alt="logo" />
         <img src={card3} className="App-logo" alt="logo" />
       </div>
-      <button className="submitButton" onClick={debounce(handleSubmit, 2000)}>
-        Random
-      </button>
-      { total > 0 && (
+      {!hidden && (
+        <button className="submitButton" onClick={debounce(handleSubmit, 400)}>
+          Random
+        </button>
+      )}
+      { !hidden && total > 0 && (
         <h1 className="total">{total}</h1>
       )}
     </div>
