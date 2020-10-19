@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Home.css";
+import { debounce } from 'lodash';
 
 const cards = [
   require("../../images/1H.png"),
@@ -101,7 +102,7 @@ const Home = () => {
         <img src={card2} className="App-logo" alt="logo" />
         <img src={card3} className="App-logo" alt="logo" />
       </div>
-      <button className="submitButton" onClick={() => handleSubmit()}>
+      <button className="submitButton" onClick={debounce(handleSubmit, 2000)}>
         Random
       </button>
       { total > 0 && (
